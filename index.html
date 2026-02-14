@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">  <title>MyShop - Home</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* Your existing hero + carousel styles remain unchanged */
+    .hero {
+      background: linear-gradient(135deg, #1e3a8a 0%, #111827 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.08) 0%, transparent 60%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      width: 100%;
+    }
+
+    .big-sale-badge {
+      display: inline-block;
+      background: #ef4444;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+      padding: 0.7rem 2rem;
+      border-radius: 50px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 6px 20px rgba(239,68,68,0.5);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      font-weight: 900;
+      text-shadow: 0 3px 12px rgba(0,0,0,0.6);
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+      opacity: 0.95;
+    }
+
+    .shop-now-btn {
+      display: inline-block;
+      background: #f59e0b;
+      color: white;
+      padding: 1.2rem 3rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.3s;
+      box-shadow: 0 8px 25px rgba(245,158,11,0.5);
+    }
+
+    .shop-now-btn:hover {
+      background: #d97706;
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(245,158,11,0.6);
+    }
+
+    /* Carousel inside hero */
+    .hero-carousel {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .carousel-slides {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.8s ease-in-out;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-slide::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+    }
+
+    .carousel-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem;
+      max-width: 800px;
+    }
+
+    .carousel-content h2 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .carousel-content p {
+      font-size: 1.6rem;
+      margin-bottom: 2rem;
+    }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 1rem;
+      z-index: 3;
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      background: rgba(71, 68, 68, 0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .dot.active {
+      background: white;
+      transform: scale(1.3);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.8rem; }
+      .hero p { font-size: 1.3rem; }
+      .carousel-content h2 { font-size: 2.5rem; }
+      .carousel-content p { font-size: 1.3rem; }
+    }
+
+    /* NEW: Product card animation (simple & clean) */
+    .product-card {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.7s ease-out;
+    }
+
+    .product-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(61, 56, 56, 0.18);
+    }
+
+    .add-to-cart {
+      transition: all 0.3s ease;
+    }
+
+    .add-to-cart:hover {
+      background: #080ce2;
+      transform: scale(1.05);
+    }
+
+    /* Banner improvements */
+    .bottom-banners .offer-banner {
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+
+    .bottom-banners .offer-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.45); /* dark overlay for text readability */
+      border-radius: 16px;
+    }
+
+    .bottom-banners .offer-banner > div {
+      position: relative;
+      z-index: 2;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar (unchanged) -->
+  <header>
+    <nav class="navbar">
+      <div class="logo"> TrendyHub </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="cart.html" class="cart-link">Cart <span id="cart-count">0</span></a>
+        <span id="user-status">Guest</span>
+        <button id="logout-btn" style="display:none;">Logout</button>
+        <a href="login.html" style="
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 5px 7px;
+    background: linear-gradient(135deg, #66d4ea, #764ba2);
+    color: white;
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border-radius: 50px;
+    box-shadow: 0 6px 20px rgba(102,118,234,0.4);
+    transition: all 0.3s ease;
+  " onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 30px rgba(102,118,234,0.6)'" 
+     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 20px rgba(102,118,234,0.4)'" id="login-link">Login / Register</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero with Product Carousel (unchanged) -->
+  <section class="hero">
+    <div class="hero-carousel">
+      <div class="carousel-slides" id="carousel-slides">
+        <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=1400');">
+          <div class="carousel-content">
+            <div class="big-sale-badge">BIG SALE</div>
+            <h2>Up to 70% OFF</h2>
+            <p>Premium Smartphones & Accessories</p>
+            <a href="products.html" class="shop-now-btn">Shop Now</a>
+          </div>
+        </div>
+
+        <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1606293459212-8cf8e3f8e8d0?w=1400');">
+          <div class="carousel-content">
+            <div class="big-sale-badge">FLASH DEAL</div>
+            <h2>Power Banks & Chargers</h2>
+            <p>Fast Charging – Starting ₹999</p>
+            <a href="products.html" class="shop-now-btn">Grab Now</a>
+          </div>
+        </div>
+
+        <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1400');">
+          <div class="carousel-content">
+            <div class="big-sale-badge">LIMITED STOCK</div>
+            <h2>Wireless Earbuds & Speakers</h2>
+            <p>Best Audio Experience – Up to 50% Off</p>
+            <a href="products.html" class="shop-now-btn">Buy Today</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-dots" id="carousel-dots"></div>
+    </div>
+
+    <div class="hero-content" style="position:absolute; z-index:3; top:50%; left:50%; transform:translate(-50%, -50%); text-align:center; width:90%;">
+      <!-- optional overlay text -->
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="featured">
+    <center>
+      <h1>Featured Products</h1>
+    </center>
+    <div id="featured-products" class="products-grid"></div>
+  </section>
+
+  <!-- Two Banners with background images -->
+  <section class="bottom-banners" style="padding: 3rem 2rem; background: #f8fafc;">
+    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); gap: 2rem;">
+      
+      <!-- Banner 1: Seasonal Offers -->
+      <div class="offer-banner" style="background-image: url('data:image/jpeg;base64,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'); height: 240px; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.25); position: relative; display: flex; align-items: center; justify-content: center; text-align: center;">
+        <div style="position: relative; z-index: 2; padding: 2rem;">
+          <h3 style="font-size: 2.4rem; margin-bottom: 0.8rem; font-weight: 800; color: white;">SEASONAL OFFERS</h3>
+          <p style="font-size: 1.4rem; margin-bottom: 1.5rem; color: white;">Up to <strong style="font-size: 2rem;">70% OFF</strong> this week!</p>
+          <a href="products.html" style="background: white; color: #7c3aed; padding: 0.9rem 2.2rem; border-radius: 50px; font-weight: bold; text-decoration: none; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s;">Shop Now</a>
+        </div>
+      </div>
+
+      <!-- Banner 2: Fast Delivery -->
+      <div class="offer-banner" style="background-image: url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200'); height: 240px; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.25); position: relative; display: flex; align-items: center; justify-content: center; text-align: center;">
+        <div style="position: relative; z-index: 2; padding: 2rem;">
+          <h3 style="font-size: 2.4rem; margin-bottom: 0.8rem; font-weight: 800; color: white;">FAST DELIVERY</h3>
+          <p style="font-size: 1.4rem; margin-bottom: 1.5rem; color: white;">Free Shipping in Bengaluru <br><strong>Within 24 Hours</strong></p>
+          <a href="products.html" style="background: white; color: #0ea5e9; padding: 0.9rem 2.2rem; border-radius: 50px; font-weight: bold; text-decoration: none; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s;">Order Now</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 TrendyHub. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="contact.html">Contact Us</a> |
+      <a href="#">Privacy Policy</a> |
+      <a href="#">Terms of Service</a>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/products.js"></script>
+
+  <script>
+    // Your existing carousel logic (unchanged)
+    const slides = document.getElementById('carousel-slides');
+    const dotsContainer = document.getElementById('carousel-dots');
+    let currentSlide = 0;
+    const totalSlides = 3;
+
+    for (let i = 0; i < totalSlides; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      if (i === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSlide(i));
+      dotsContainer.appendChild(dot);
+    }
+
+    const dots = document.querySelectorAll('.dot');
+
+    function goToSlide(index) {
+      currentSlide = index;
+      slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+    }
+
+    let autoSlide = setInterval(() => {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      goToSlide(currentSlide);
+    }, 5000);
+
+    document.querySelector('.hero-carousel').addEventListener('mouseenter', () => clearInterval(autoSlide));
+    document.querySelector('.hero-carousel').addEventListener('mouseleave', () => {
+      autoSlide = setInterval(() => {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        goToSlide(currentSlide);
+      }, 5000);
+    });
+
+    // Featured products + simple stagger animation (unchanged from previous)
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('featured-products');
+      if (!container) return;
+
+      container.innerHTML = '<div class="loading">Loading featured products...</div>';
+
+      setTimeout(() => {
+        const featured = sampleProducts.slice(0, 8);
+        container.innerHTML = '';
+
+        featured.forEach((p, index) => {
+  const card = document.createElement('div');
+  card.className = 'product-card';
+  card.style.transitionDelay = `${index * 0.1}s`; // stagger animation
+  card.style.cursor = 'pointer';
+
+  card.innerHTML = `
+    <img src="${p.image}" alt="${p.name}">
+    <h3>${p.name}</h3>
+    <p style="font-weight:bold; color:#28a745; padding:0 1rem;">₹${Number(p.price).toFixed(2)}</p>
+    <button class="add-to-cart"
+            data-id="${p._id}"
+            data-name="${p.name.replace(/"/g, '&quot;')}"
+            data-price="${p.price}"
+            data-image="${p.image}">
+      Add to Cart
+    </button>
+  `;
+
+  // Click whole card to open detail page (except button)
+  card.addEventListener('click', (e) => {
+    if (e.target.classList.contains('add-to-cart')) return;
+    window.location.href = `product.html?id=${p._id}`;
+  });
+
+  container.appendChild(card);
+
+  // Trigger animation
+  setTimeout(() => card.classList.add('visible'), 100);
+});
+
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+          btn.addEventListener('click', e => {
+            e.stopPropagation();
+            const { id, name, price, image } = e.target.dataset;
+            addToCart(id, name, Number(price), image);
+            showToast(`Added ${name} to cart!`);
+          });
+        });
+      }, 600);
+    });
+  </script>
+</body>
+</html>

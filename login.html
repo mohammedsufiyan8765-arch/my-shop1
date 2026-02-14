@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">  <title>MyShop - Login</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+    .navbar {
+      background: rgba(0,0,0,0.7);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+    .logo { font-size: 1.8rem; font-weight: bold; }
+    .nav-links { list-style: none; display: flex; gap: 2rem; }
+    .nav-links a { color: white; text-decoration: none; }
+    .nav-right { display: flex; gap: 1.5rem; align-items: center; }
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 80vh;
+    }
+    .auth-container {
+      background: rgba(255,255,255,0.95);
+      padding: 3rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+    h2 { margin-bottom: 1.5rem; color: #333; }
+    .form-group { margin-bottom: 1.5rem; text-align: left; }
+    label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+    input {
+      width: 100%;
+      padding: 0.9rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 1rem;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+    button:hover { background: #5a67d8; }
+    p { margin-top: 1.5rem; color: #555; }
+    a { color: #667eea; text-decoration: none; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">TrendyHub</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="cart.html">Cart <span id="cart-count">0</span></a>
+        <span id="user-status">Guest</span>
+        <button id="logout-btn" style="display:none;">Logout</button>
+         <a href="register.html" style="
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 5px 7px;
+    background: linear-gradient(135deg, #66d4ea, #764ba2);
+    color: white;
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border-radius: 50px;
+    box-shadow: 0 6px 20px rgba(102,118,234,0.4);
+    transition: all 0.3s ease;
+  " onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 30px rgba(102,118,234,0.6)'" 
+     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 20px rgba(102,118,234,0.4)'" id="login-link">Register</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Login Form -->
+  <main>
+    <div class="auth-container">
+      <h2>Login to MyShop</h2>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" required placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" required placeholder="••••••••">
+        </div>
+        <button type="submit">Login</button>
+      </form>
+      <p>Don't have an account? <a href="register.html">Register here</a></p>
+    </div>
+    <div id="message" style="display:none;"></div>
+  </main>
+
+  <!-- Scripts -->
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('login-form');
+    const msgDiv = document.getElementById('message');
+
+    if (!form || !msgDiv) {
+      console.error('Login form or message div not found');
+      return;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('email')?.value.trim();
+      const password = document.getElementById('password')?.value.trim();
+
+      if (!email || !password) {
+        msgDiv.className = 'error';
+        msgDiv.textContent = 'Please fill email and password';
+        msgDiv.style.display = 'block';
+        return;
+      }
+
+      msgDiv.style.display = 'none';
+
+      try {
+        const res = await fetch('http://localhost:3000/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('userId', data.user._id);
+          msgDiv.className = 'success';
+          msgDiv.textContent = 'Login successful!';
+          msgDiv.style.display = 'block';
+          setTimeout(() => window.location.href = 'index.html', 1500);
+        } else {
+          msgDiv.className = 'error';
+          msgDiv.textContent = data.message || 'Login failed';
+          msgDiv.style.display = 'block';
+        }
+      } catch (err) {
+        msgDiv.className = 'error';
+        msgDiv.textContent = 'Network error: ' + err.message;
+        msgDiv.style.display = 'block';
+        console.error('Login error:', err);
+      }
+    });
+  });
+</script>
+</body>
+</html>
